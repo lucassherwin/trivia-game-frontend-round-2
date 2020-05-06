@@ -27,12 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(resp => resp.json())
             .then(category => {
                 // let questionText = document.getElementById('question-text');
-                //index -> each question in the array
-                //category
-                let cat = category;
-                let index = 0;
-
-                showQuestion(cat, index)
+                let index = 0; //first question
+                showQuestion(category, index)
             })
         }
         else //submit to login
@@ -42,11 +38,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-    function showQuestion() 
+    function showQuestion(category, index) 
     {
+        let i = index;
         //show first question
+        // console.log(category[0]['questions'][0]); //have to put 0 index first for first category
+        let questionText = document.getElementById('question-text');
+        questionText.innerText = category[0]['questions'][0]['question'];
 
+        //show each potential answer
+        let ansArr = []; //array containing each answer
+        
+        category[0]['questions'].forEach(ans => {
+            ansArr.push(ans['correct_answer']);
+            ansArr.push(ans['wrong_answer_1']);
+            ansArr.push(ans['wrong_answer_2']);
+            ansArr.push(ans['wrong_answer_3']);
+        })
+
+        //loop over array and create buttons for each answer
+        //put them on the DOM
+        let answers = document.getElementById('choices');
+        ansArr.forEach(ans => {
+            let ansBtn = document.createElement('button');
+            ansBtn.textContent = ans;
+            answers.appendChild(ansBtn);
+        })
         //event listener on each answer button
+
         //if correct -> next question/answers
         //else -> maybe say something idk
     }
